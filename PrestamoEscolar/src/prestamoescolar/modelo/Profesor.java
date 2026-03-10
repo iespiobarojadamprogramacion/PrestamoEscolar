@@ -16,6 +16,13 @@ public class Profesor {
 		public void setCodigoProfesor(int codigoProfesor) {
 			this.codigoProfesor = codigoProfesor;
 		}
+
+		@Override
+		public String toString() {
+			return "Profesor [codigoProfesor=" + codigoProfesor + "]";
+		}
+		
+		
 		
 		
 
