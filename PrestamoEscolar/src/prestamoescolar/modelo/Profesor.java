@@ -9,4 +9,14 @@ public class Profesor {
 			
 		}
 
+		public int getCodigoProfesor() {
+			return codigoProfesor;
+		}
+
+		public void setCodigoProfesor(int codigoProfesor) {
+			this.codigoProfesor = codigoProfesor;
+		}
+		
+		
+
 }
