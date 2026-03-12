@@ -12,6 +12,8 @@ public class Principal {
 
 		System.out.println("Soy Pablo ");
 
+		System.out.println("Lo he arreglado?");
+
 	}
 
 }
