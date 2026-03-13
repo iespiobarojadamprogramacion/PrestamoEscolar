@@ -10,15 +10,19 @@ public abstract class Prestamos {
 	private Date fechaInicio;
 	public Date fechaFinal;
 	private boolean activo;
+	private Persona persona;
+	private MaterialEscolar materialEscolar;
 	
 	Prestamos(int duracionMaxima,boolean[] condicionesRenovacion,boolean[] restriccionesUso,
-			Date fechaInicio,Date fechaFinal,boolean activo){
+			Date fechaInicio,Date fechaFinal,boolean activo,Persona persona,MaterialEscolar materialEscolar){
 		this.duracionMaxima=duracionMaxima;
 		this.condicionesRenovacion=condicionesRenovacion;
 		this.restriccionesUso=restriccionesUso;
 		this.fechaInicio=fechaInicio;
 		this.fechaFinal=fechaFinal;
 		this.activo=activo;
+		this.persona=persona;
+		this.materialEscolar=materialEscolar;
 	}
 	
 	public int getDuracionMaxima() {
@@ -50,6 +54,21 @@ public abstract class Prestamos {
 	}
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
+	public MaterialEscolar getMaterialEscolar() {
+		return materialEscolar;
+	}
+
+	public void setMaterialEscolar(MaterialEscolar materialEscolar) {
+		this.materialEscolar = materialEscolar;
 	}
 
 	public String toString() {
