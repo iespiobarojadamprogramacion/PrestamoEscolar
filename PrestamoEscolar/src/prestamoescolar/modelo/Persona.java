@@ -5,12 +5,13 @@ public class Persona {
 	private String nombre;
 	private String apellido;
 	private int telefono;
-	
-		public Persona(String nombre, String apellido, int telefono) {
+	private Prestamos prestamo;
+
+		public Persona(String nombre, String apellido, int telefono,Prestamos prestamo) {
 			this.apellido=apellido;
 			this.nombre=nombre;
 			this.telefono=telefono;
-			
+			this.prestamo=prestamo;
 		}
 
 		public String getNombre() {
@@ -25,13 +26,7 @@ public class Persona {
 			return telefono;
 		}
 
-		@Override
 		public String toString() {
-			return "Persona [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + "]";
+			return "El prestamo: "+prestamo+" Pertenece a la persona con nombre: " + nombre + " y apellido: " + apellido + " con el telefono:" + telefono+" - ";
 		}
-		
-		
-		
-				
-
 }
