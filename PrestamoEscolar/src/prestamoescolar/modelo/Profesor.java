@@ -1,10 +1,10 @@
 package prestamoescolar.modelo;
 
-public class Profesor {
+public class Profesor extends Persona {
 	private int codigoProfesor;
 	
-		public Profesor(String nombre, String apellido, int telefono, int codigoProfesor) {
-			super();
+		public Profesor(String nombre, String apellido, int telefono, Prestamos prestamo,int codigoProfesor) {
+			super(nombre,apellido,telefono,prestamo);
 			this.codigoProfesor=codigoProfesor;
 			
 		}
@@ -17,13 +17,7 @@ public class Profesor {
 			this.codigoProfesor = codigoProfesor;
 		}
 
-		@Override
 		public String toString() {
-			return "Profesor [codigoProfesor=" + codigoProfesor + "]";
+			return super.toString()+"Es un profesor con codigo de profesor: "+codigoProfesor;
 		}
-		
-		
-		
-		
-
 }
