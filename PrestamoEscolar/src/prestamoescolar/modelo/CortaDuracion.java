@@ -5,18 +5,15 @@ import java.util.Calendar;
 
 public class CortaDuracion extends Prestamos {
 
-	CortaDuracion(int duracionMaxima, boolean[] condicionesRenovacion, boolean[] restriccionesUso, Date fechaInicio,
-			Date fechaFinal, boolean activo,Persona persona,MaterialEscolar materialEscolar) {
-		super(duracionMaxima,condicionesRenovacion,restriccionesUso,fechaInicio,fechaFinal,activo,persona,materialEscolar);
+	CortaDuracion(Persona persona,MaterialEscolar materialEscolar,Date fechaInicio) {
+		super(persona,materialEscolar,fechaInicio);
 	}
 	
 	public void setDuracionMaxima(int duracionMaxima) {
 		this.duracionMaxima=duracionMaxima;
 	}
 	
-	public void setCondicionesRenovacion(boolean[] condicionesRenovacion) {
-		this.condicionesRenovacion=condicionesRenovacion;
-	}
+
 	
 	public void setRestriccionesUso(boolean[] restriccionesUso) {
 		this.restriccionesUso=restriccionesUso;

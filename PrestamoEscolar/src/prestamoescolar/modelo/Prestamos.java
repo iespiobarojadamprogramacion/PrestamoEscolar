@@ -1,11 +1,11 @@
 package prestamoescolar.modelo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Prestamos {
 	public int duracionMaxima;
-	public boolean[] condicionesRenovacion;
 	public boolean[] restriccionesUso;
 	private Date fechaInicio;
 	public Date fechaFinal;
@@ -13,24 +13,28 @@ public abstract class Prestamos {
 	private Persona persona;
 	private MaterialEscolar materialEscolar;
 	
-	Prestamos(int duracionMaxima,boolean[] condicionesRenovacion,boolean[] restriccionesUso,
-			Date fechaInicio,Date fechaFinal,boolean activo,Persona persona,MaterialEscolar materialEscolar){
-		this.duracionMaxima=duracionMaxima;
-		this.condicionesRenovacion=condicionesRenovacion;
-		this.restriccionesUso=restriccionesUso;
-		this.fechaInicio=fechaInicio;
-		this.fechaFinal=fechaFinal;
-		this.activo=activo;
+	Prestamos(Persona persona,MaterialEscolar materialEscolar,Date fechaInicio){
+		
 		this.persona=persona;
 		this.materialEscolar=materialEscolar;
+		this.fechaInicio=fechaInicio;
+
 	}
+	
+//	Prestamos(int duracionMaxima,boolean[] condicionesRenovacion,boolean[] restriccionesUso,
+	//		Date fechaInicio,Date fechaFinal,boolean activo,Persona persona,MaterialEscolar materialEscolar){
+		//this.duracionMaxima=duracionMaxima;
+		//this.condicionesRenovacion=condicionesRenovacion;
+		//this.restriccionesUso=restriccionesUso;
+		//this.fechaInicio=fechaInicio;
+		//this.fechaFinal=fechaFinal;
+		//this.activo=activo;
+		//this.persona=persona;
+		//this.materialEscolar=materialEscolar;
+	//}
 	
 	public int getDuracionMaxima() {
 		return duracionMaxima;
-	}
-	
-	public boolean[] getCondicionesRenovacion() {
-		return condicionesRenovacion;
 	}
 	
 	public boolean[] getRestriccionesUso() {
@@ -72,9 +76,9 @@ public abstract class Prestamos {
 	}
 
 	public String toString() {
-		return "Prestamos [duracionMaxima=" + duracionMaxima + ", condicionesRenovacion="
-				+ Arrays.toString(condicionesRenovacion) + ", restriccionesUso=" + Arrays.toString(restriccionesUso)
-				+ ", fechaInicio=" + fechaInicio + ", fechaFinal=" + fechaFinal + ", activo=" + activo + "]";
+		return "El Prestamo tiene una duracion maxima de: " + duracionMaxima + " dias, sus condiciones de renovacion son: "
+				 + ", sus restricciones de uso son:" + Arrays.toString(restriccionesUso)
+				+ " , el prestamo inicio el dia: " + fechaInicio + " y finaliza el dia: " + fechaFinal + " ¿y esta activo.?" + activo;
 	}
 	
 }

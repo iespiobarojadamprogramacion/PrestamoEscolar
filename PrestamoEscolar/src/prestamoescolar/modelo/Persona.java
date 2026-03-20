@@ -1,17 +1,18 @@
 package prestamoescolar.modelo;
+import java.util.ArrayList;
 
 public class Persona {
+	
+	public static ArrayList<Persona> personas=new ArrayList<>();
 	
 	private String nombre;
 	private String apellido;
 	private int telefono;
-	private Prestamos prestamo;
 
-		public Persona(String nombre, String apellido, int telefono,Prestamos prestamo) {
+		public Persona(String nombre, String apellido, int telefono) {
 			this.apellido=apellido;
 			this.nombre=nombre;
 			this.telefono=telefono;
-			this.prestamo=prestamo;
 		}
 
 		public String getNombre() {
@@ -27,6 +28,6 @@ public class Persona {
 		}
 
 		public String toString() {
-			return "El prestamo: "+prestamo+" Pertenece a la persona con nombre: " + nombre + " y apellido: " + apellido + " con el telefono:" + telefono+" - ";
+			return "La persona con nombre: "+nombre+" y apellido: "+apellido+" con telefono: "+telefono;
 		}
 }

@@ -1,26 +1,20 @@
 package prestamoescolar.modelo;
 
+import java.util.ArrayList;
+
 public class MaterialEscolar {
 	private int codigo;
 	private static int contadorCodigo=1;
-	private String nombre;
 	private Tipo tipo;
 	private Estado estado;
 	
-	MaterialEscolar(String nombre,Tipo tipo,Estado estado){
+	public static ArrayList<MaterialEscolar> materiales=new ArrayList<>();
+	
+	public MaterialEscolar(Tipo tipo,Estado estado){
 		this.codigo=contadorCodigo;
 		this.contadorCodigo++;
-		this.nombre=nombre;
 		this.tipo=tipo;
 		this.estado=estado;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public Tipo getTipo() {
@@ -44,8 +38,7 @@ public class MaterialEscolar {
 	}
 
 	public String toString() {
-		return "MaterialEscolar [codigo=" + codigo + ", nombre=" + nombre + ", tipo=" + tipo + ", estado=" + estado
-				+ "]";
+		return "El Material con codigo "+ codigo+" Es un "+tipo+" y su estado es "+estado;
 	}
 	
 
