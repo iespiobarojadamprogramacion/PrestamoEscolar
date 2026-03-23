@@ -1,3 +1,4 @@
+
 package prestamoescolar.modelo;
 
 import java.util.ArrayList;
@@ -5,74 +6,53 @@ import java.util.ArrayList;
 public class MaterialEscolar {
 
 	/**
-	 Clase MaterialEscolar.
-	 Representa un material que puede ser prestado dentro del sistema.
-	 Cada material tiene un nombre, un estado y, en caso de mantenimiento,
-	 un número de días restantes para volver a estar disponible.
+	 * Clase MaterialEscolar. Representa un material que puede ser prestado dentro
+	 * del sistema. Cada material tiene un nombre, un estado y, en caso de
+	 * mantenimiento, un número de días restantes para volver a estar disponible.
 	 */
-    public enum EstadoMaterial {
-        DISPONIBLE,
-        EN_PRESTAMO,
-        EN_MANTENIMIENTO
-    }
 
-    private String nombre; // nombre o descripción del material
-    private EstadoMaterial estado = EstadoMaterial.DISPONIBLE;
-    private int diasMantenimiento = 0;
+	private Tipo_Material tipo;
+	private Estado_Material estado;
+	private int diasMantenimiento;
 
-    // LISTA GLOBAL DE MATERIALES
-    public static ArrayList<MaterialEscolar> materiales = new ArrayList<>();
+	public static ArrayList<MaterialEscolar> materiales = new ArrayList<>();
 
-    // CONSTRUCTOR
-    public MaterialEscolar(String nombre) {
-        this.nombre = nombre;
-    }
+	// CONSTRUCTOR
+	public MaterialEscolar(Tipo_Material tipo) {
+		this.tipo = tipo;
+		this.estado = Estado_Material.Disponible;
+		this.diasMantenimiento = 0;
+	}
 
-    // GETTERS / SETTERS
-    public String getNombre() {
-        return nombre;
-    }
+	// GETTERS
+	public Tipo_Material getTipo() {
+		return tipo;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public Estado_Material getEstado() {
+		return estado;
+	}
 
-    public EstadoMaterial getEstado() {
-        return estado;
-    }
+	public int getDiasMantenimiento() {
+		return diasMantenimiento;
+	}
 
-    public void setEstado(EstadoMaterial estado) {
-        this.estado = estado;
-    }
+	// SETTERS
+	public void setEstado(Estado_Material estado) {
+		this.estado = estado;
+	}
 
-    public int getDiasMantenimiento() {
-        return diasMantenimiento;
-    }
+	public void setDiasMantenimiento(int dias) {
+		this.diasMantenimiento = dias;
+	}
 
-    public void setDiasMantenimiento(int diasMantenimiento) {
-        this.diasMantenimiento = diasMantenimiento;
-    }
+	public boolean isDisponible() {
+		return estado == Estado_Material.Disponible;
+	}
 
-    // MÉTODO PARA SABER SI EL MATERIAL ESTÁ DISPONIBLE PARA PRESTAR
-    public boolean isDisponible() {
-        return estado == EstadoMaterial.DISPONIBLE;
-    }
+	@Override
+	public String toString() {
+		return "Material: " + tipo + " | Estado: " + estado;
+	}
 
-    // TO STRING
-    @Override
-    public String toString() {
-        String estadoTexto = "";
-        switch (estado) {
-            case DISPONIBLE:
-                estadoTexto = "Disponible";
-                break;
-            case EN_PRESTAMO:
-                estadoTexto = "En préstamo";
-                break;
-            case EN_MANTENIMIENTO:
-                estadoTexto = "En mantenimiento (" + diasMantenimiento + " días restantes)";
-                break;
-        }
-        return "Material: " + nombre + " | Estado: " + estadoTexto;
-    }
 }
