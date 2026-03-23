@@ -14,15 +14,44 @@ public class Main {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+		
+		Persona.personas.add(new Alumno("Pablo", "Sierra", 123456789, "1ºDAM"));
+		Persona.personas.add(new Alumno("Joel", "Esteban", 987654321, "2ºDAM"));
+
+		Persona.personas.add(new Profesor("David", "Arroyo", 111222333, 1));
+		Persona.personas.add(new Profesor("Ana", "Martinez", 444555666, 2));
+		
+		MaterialEscolar m1 = new MaterialEscolar(Tipo_Material.Ordenadores_Portatiles);
+		MaterialEscolar m2 = new MaterialEscolar(Tipo_Material.Tablets);
+		MaterialEscolar m3 = new MaterialEscolar(Tipo_Material.Calculadoras);
+		MaterialEscolar m4 = new MaterialEscolar(Tipo_Material.Libros);
+		MaterialEscolar m5 = new MaterialEscolar(Tipo_Material.Material_Audiovisual);
+		
+		
+
+		MaterialEscolar.materiales.add(m1);
+		MaterialEscolar.materiales.add(m2);
+		MaterialEscolar.materiales.add(m3);
+		MaterialEscolar.materiales.add(m4);
+		MaterialEscolar.materiales.add(m5);
+		
+		Calendar cal = Calendar.getInstance();
+		Date fechaInicio = new Date(cal.getTimeInMillis());
+		
+		Prestamos p1 = new CortaDuracion(Persona.personas.get(0), m1, fechaInicio);
+		m1.setEstado(Estado_Material.Prestado);
+		Prestamos.prestamos.add(p1);
 
 		// Fecha del sistema
-		Calendar cal = Calendar.getInstance();
+		cal = Calendar.getInstance();
 		int diaActual = cal.get(Calendar.DAY_OF_MONTH);
 		int mesActual = cal.get(Calendar.MONTH) + 1; // Calendar.MONTH va de 0 a 11
 		int anioActual = cal.get(Calendar.YEAR);
 
 		boolean salir = false;
 		int opcion;
+		
+		
 
 		while (!salir) {
 
@@ -211,7 +240,7 @@ public class Main {
 
 				// Fecha inicio
 				cal = Calendar.getInstance();
-				Date fechaInicio = new Date(cal.getTimeInMillis());
+				fechaInicio = new Date(cal.getTimeInMillis());
 
 				Prestamos prestamo = null;
 				switch (opcionPrest) {
@@ -262,7 +291,8 @@ public class Main {
 						p.setActivo(false); // préstamo finalizado
 						MaterialEscolar mat = p.getMaterialEscolar();
 						mat.setEstado(Estado_Material.En_mantenimiento);
-						mat.setDiasMantenimiento(2); // 2 días de mantenimiento
+						int diasAleatorios = (int)(Math.random() * 10) + 1; // 1 a 10
+						mat.setDiasMantenimiento(diasAleatorios);
 						System.out.println(" Préstamo finalizado: " + p);
 					}
 				}
