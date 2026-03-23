@@ -1,6 +1,7 @@
 package prestamoescolar.modelo;
 
-public enum Tipo {
-	Ordenadores_Portatiles,Tablets,Calculadoras,Libros,Material_Audiovisual
-
+/**
+ * Enum que representa los tipos de materiales escolares disponibles.
+ */
+public enum Tipo {ORDENADORES_PORTATILES,TABLETS,CALCULADORAS,LIBROS,MATERIAL_AUDIOVISUAL
 }
