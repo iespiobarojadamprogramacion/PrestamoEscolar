@@ -3,82 +3,98 @@ package prestamoescolar.modelo;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public abstract class Prestamos {
-	public int duracionMaxima;
-	public boolean[] restriccionesUso;
-	private Date fechaInicio;
-	public Date fechaFinal;
-	private boolean activo;
-	private Persona persona;
-	private MaterialEscolar materialEscolar;
-	
-	Prestamos(Persona persona,MaterialEscolar materialEscolar,Date fechaInicio){
-		
-		this.persona=persona;
-		this.materialEscolar=materialEscolar;
-		this.fechaInicio=fechaInicio;
 
-	}
-	
-//	Prestamos(int duracionMaxima,boolean[] condicionesRenovacion,boolean[] restriccionesUso,
-	//		Date fechaInicio,Date fechaFinal,boolean activo,Persona persona,MaterialEscolar materialEscolar){
-		//this.duracionMaxima=duracionMaxima;
-		//this.condicionesRenovacion=condicionesRenovacion;
-		//this.restriccionesUso=restriccionesUso;
-		//this.fechaInicio=fechaInicio;
-		//this.fechaFinal=fechaFinal;
-		//this.activo=activo;
-		//this.persona=persona;
-		//this.materialEscolar=materialEscolar;
-	//}
-	
-	public int getDuracionMaxima() {
-		return duracionMaxima;
-	}
-	
-	public boolean[] getRestriccionesUso() {
-		return restriccionesUso;
-	}
-	
-	public Date getFechainicio() {
-		return fechaInicio;
-	}
-	public void setFechainicio(Date fechainicio) {
-		this.fechaInicio = fechainicio;
-	}
-	public Date getFechafinal() {
-		return fechaFinal;
-	}
-	public void setFechafinal(Date fechafinal) {
-		this.fechaFinal = fechafinal;
-	}
-	public boolean isActivo() {
-		return activo;
-	}
-	public void setActivo(boolean activo) {
-		this.activo = activo;
-	}
+    protected Persona persona;
+    protected MaterialEscolar materialEscolar;
+    protected Date fechaInicio;
+    protected Date fechaFinal;
+    protected int duracionMaxima;
+    protected boolean[] restriccionesUso;
+    protected boolean activo=true;
+
+    public static ArrayList<Prestamos> prestamos = new ArrayList<>();
+
+    public Prestamos(Persona persona, MaterialEscolar materialEscolar, Date fechaInicio) {
+        this.persona = persona;
+        this.materialEscolar = materialEscolar;
+        this.fechaInicio = fechaInicio;
+    }
+
+    // 🔥 MÉTODO COMÚN (SOLO AQUÍ)
+    public Date calcularFechaFinal() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.fechaInicio);
+        cal.add(Calendar.DAY_OF_MONTH, this.duracionMaxima);
+
+        this.fechaFinal = new Date(cal.getTimeInMillis());
+        return this.fechaFinal;
+    }
+    
+    public void revisarFechaActual(Date fechaActual) {
+        if (activo && fechaActual.after(fechaFinal)) {
+            activo = false; 
+            materialEscolar.setEstado(MaterialEscolar.EstadoMaterial.EN_MANTENIMIENTO);
+            materialEscolar.setDiasMantenimiento(2); // 2 días de mantenimiento
+        }
+    }
+
+    // GETTERS
+    
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
+    public MaterialEscolar getMaterialEscolar() {
+        return materialEscolar;
+    }
+    
+    public int getDuracionMaxima() {
+        return duracionMaxima;
+    }
+
+    public Date getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public String toString() {
+        String info = "Préstamo de: " + materialEscolar.getNombre() +
+                      " | Persona: " + persona.getNombre() + " " + persona.getApellido();
+
+        // Añadir curso o código según tipo de persona
+        if (persona instanceof Alumno) {
+            info += " | Curso: " + ((Alumno) persona).getCurso();
+        } else if (persona instanceof Profesor) {
+            info += " | Código profesor: " + ((Profesor) persona).getCodigoProfesor();
+        }
+
+        info += " | Fecha inicio: " + fechaInicio +
+                " | Fecha devolución: " + fechaFinal;
+
+        // Días restantes
+        if (activo) {
+            long diasRestantes = (fechaFinal.getTime() - fechaInicio.getTime()) / (1000*60*60*24);
+            info += " | Días restantes: " + diasRestantes;
+        }
+
+        info += " | Activo: " + (activo ? "Sí" : "No");
+
+        return info;
+    }
+
 	public Persona getPersona() {
-		return persona;
-	}
+        return persona;
+    }
 
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
+	public java.util.Date getFechaInicio() {
+        return fechaInicio;
+    }
 
-	public MaterialEscolar getMaterialEscolar() {
-		return materialEscolar;
-	}
-
-	public void setMaterialEscolar(MaterialEscolar materialEscolar) {
-		this.materialEscolar = materialEscolar;
-	}
-
-	public String toString() {
-		return "El Prestamo tiene una duracion maxima de: " + duracionMaxima + " dias, sus condiciones de renovacion son: "
-				 + ", sus restricciones de uso son:" + Arrays.toString(restriccionesUso)
-				+ " , el prestamo inicio el dia: " + fechaInicio + " y finaliza el dia: " + fechaFinal + " ¿y esta activo.?" + activo;
-	}
-	
 }
+
