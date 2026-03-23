@@ -1,6 +1,6 @@
 package prestamoescolar.modelo;
 
-public enum Estado {
+public enum Estado_Material {
 	Disponible,Prestado,En_mantenimiento
 
 }
