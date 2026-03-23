@@ -1,9 +1,17 @@
 package prestamoescolar.modelo;
 
 import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+/**
+ * Clase abstracta Prestamos.
+ * Representa un préstamo de material escolar realizado por una persona.
+ * 
+ * Esta clase contiene la lógica común de todos los tipos de préstamo
+ * (como corta duración o especial), y será heredada por dichas clases.
+ */
 
 public abstract class Prestamos {
 
@@ -14,7 +22,9 @@ public abstract class Prestamos {
     protected int duracionMaxima;
     protected boolean[] restriccionesUso;
     protected boolean activo=true;
-
+    /**
+     * Lista global de todos los préstamos realizados en el sistema.
+     */
     public static ArrayList<Prestamos> prestamos = new ArrayList<>();
 
     public Prestamos(Persona persona, MaterialEscolar materialEscolar, Date fechaInicio) {
@@ -23,7 +33,10 @@ public abstract class Prestamos {
         this.fechaInicio = fechaInicio;
     }
 
-    // 🔥 MÉTODO COMÚN (SOLO AQUÍ)
+    /**
+     * Calcula la fecha final del préstamo sumando la duración máxima
+     a la fecha de inicio.
+     */
     public Date calcularFechaFinal() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.fechaInicio);
@@ -32,7 +45,12 @@ public abstract class Prestamos {
         this.fechaFinal = new Date(cal.getTimeInMillis());
         return this.fechaFinal;
     }
-    
+    /**
+     * Revisa si el préstamo ha superado la fecha límite.
+      Si ya ha pasado la fecha final:
+     *  El préstamo se marca como inactivo
+     *  El material pasa a mantenimiento durante 2 días
+     */
     public void revisarFechaActual(Date fechaActual) {
         if (activo && fechaActual.after(fechaFinal)) {
             activo = false; 

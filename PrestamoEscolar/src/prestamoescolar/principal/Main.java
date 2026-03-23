@@ -1,6 +1,9 @@
 package prestamoescolar.principal;
 
 import prestamoescolar.modelo.*;
+/**
+  Clase principal del sistema de préstamos escolares.
+  Contiene el menú interactivo**/
 import java.util.Scanner;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ public class Main {
         // Fecha del sistema
         Calendar cal = Calendar.getInstance();
         int diaActual = cal.get(Calendar.DAY_OF_MONTH);
-        int mesActual = cal.get(Calendar.MONTH) + 1; // OJO: Calendar.MONTH va de 0 a 11
+        int mesActual = cal.get(Calendar.MONTH) + 1; //Calendar.MONTH va de 0 a 11
         int anioActual = cal.get(Calendar.YEAR);
 
         boolean salir = false;
@@ -177,7 +180,7 @@ public class Main {
                 	    break;
                 	}
 
-                	// 2️⃣ Mostrar materiales disponibles y elegir
+                	//  Mostrar materiales disponibles y elegir
                 	ArrayList<MaterialEscolar> disponibles = new ArrayList<>();
                 	for (MaterialEscolar m : MaterialEscolar.materiales) {
                 	    if (m.isDisponible()) {
@@ -205,7 +208,7 @@ public class Main {
 
                 	MaterialEscolar materialSeleccionado = disponibles.get(opcionMat - 1);
 
-                	// 3️⃣ Elegir tipo de préstamo
+                	// 3️ Elegir tipo de préstamo
                 	System.out.println("\nTipo de préstamo:");
                 	System.out.println("1. Larga duración (30 días)");
                 	System.out.println("2. Corta duración (7 días)");
@@ -260,18 +263,18 @@ public class Main {
                     calActual.set(anioActual, mesActual - 1, diaActual); // mes-1 porque Calendar usa 0-11
                     Date fechaActual = new Date(calActual.getTimeInMillis());
 
-                    // 1️⃣ Revisar préstamos
+                    //  Revisar préstamos
                     for (Prestamos p : Prestamos.prestamos) {
                         if (p.isActivo() && fechaActual.after(p.getFechaFinal())) {
                             p.setActivo(false); // préstamo finalizado
                             MaterialEscolar mat = p.getMaterialEscolar();
                             mat.setEstado(MaterialEscolar.EstadoMaterial.EN_MANTENIMIENTO);
                             mat.setDiasMantenimiento(2); // 2 días de mantenimiento
-                            System.out.println("⚠️ Préstamo finalizado: " + p);
+                            System.out.println(" Préstamo finalizado: " + p);
                         }
                     }
 
-                    // 2️⃣ Actualizar materiales en mantenimiento
+                    //  Actualizar materiales en mantenimiento
                     for (MaterialEscolar m : MaterialEscolar.materiales) {
                         if (m.getEstado() == MaterialEscolar.EstadoMaterial.EN_MANTENIMIENTO) {
                             int dias = m.getDiasMantenimiento() - 1;
@@ -283,7 +286,7 @@ public class Main {
                         }
                     }
 
-                    System.out.println("📅 Día avanzado: " + diaActual + "/" + mesActual + "/" + anioActual);
+                    System.out.println(" Día avanzado: " + diaActual + "/" + mesActual + "/" + anioActual);
                     break;
 
                 // ===== 9: Consultar historial =====

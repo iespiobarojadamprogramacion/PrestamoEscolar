@@ -4,7 +4,12 @@ import java.util.ArrayList;
 
 public class MaterialEscolar {
 
-    // ENUM DE ESTADO DEL MATERIAL
+	/**
+	 Clase MaterialEscolar.
+	 Representa un material que puede ser prestado dentro del sistema.
+	 Cada material tiene un nombre, un estado y, en caso de mantenimiento,
+	 un número de días restantes para volver a estar disponible.
+	 */
     public enum EstadoMaterial {
         DISPONIBLE,
         EN_PRESTAMO,
