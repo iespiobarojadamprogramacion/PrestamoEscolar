@@ -1,4 +1,9 @@
 package prestamoescolar.modelo;
+/**
+ Clase Profesor que hereda de Persona.
+ Representa a un profesor dentro del sistema de préstamo escolar.
+ Añade un código único de identificación del profesor.
+ */
 
 public class Profesor extends Persona {
 	private int codigoProfesor;

@@ -2,7 +2,13 @@ package prestamoescolar.modelo;
 import java.util.ArrayList;
 
 public class Persona {
-	
+	/**
+	 Clase Persona.
+	 Representa a una persona dentro del sistema de préstamo escolar.
+	 Puede ser un alumno o un profesor (clases que heredarán de esta).
+	 */
+
+    // Lista global que almacena todas las personas del sistema.
 	public static ArrayList<Persona> personas=new ArrayList<>();
 	
 	private String nombre;
