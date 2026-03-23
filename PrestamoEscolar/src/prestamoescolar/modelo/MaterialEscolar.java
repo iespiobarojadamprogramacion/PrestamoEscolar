@@ -10,6 +10,8 @@ public class MaterialEscolar {
 	 * del sistema. Cada material tiene un nombre, un estado y, en caso de
 	 * mantenimiento, un número de días restantes para volver a estar disponible.
 	 */
+	
+	
 
 	private Tipo_Material tipo;
 	private Estado_Material estado;
