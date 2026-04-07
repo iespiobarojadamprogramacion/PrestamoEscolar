@@ -2,7 +2,7 @@ package prestamoescolar.modelo;
 
 import java.sql.Date;
 
-public class LargaDuracion extends Prestamos {
+public class LargaDuracion extends TiposDePrestamo {
 
     public LargaDuracion(Persona persona, MaterialEscolar materialEscolar, Date fechaInicio) {
         super(persona, materialEscolar, fechaInicio);

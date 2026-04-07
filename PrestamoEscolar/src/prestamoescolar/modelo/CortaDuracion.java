@@ -7,7 +7,7 @@ import java.sql.Date;
  Define restricciones específicas de uso para este tipo de préstamo.
  */
 
-public class CortaDuracion extends Prestamos {
+public class CortaDuracion extends TiposDePrestamo {
 
     public CortaDuracion(Persona persona, MaterialEscolar materialEscolar, Date fechaInicio) {
         super(persona, materialEscolar, fechaInicio);

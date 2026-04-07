@@ -1,373 +1,96 @@
 package prestamoescolar.principal;
-
 import prestamoescolar.modelo.*;
-/**
-  Clase principal del sistema de préstamos escolares.
-  Contiene el menú interactivo**/
+
+
 import java.util.Scanner;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Main {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
-		
-		Persona.personas.add(new Alumno("Pablo", "Sierra", 123456789, "1ºDAM"));
-		Persona.personas.add(new Alumno("Joel", "Esteban", 987654321, "2ºDAM"));
+        Scanner sc = new Scanner(System.in);
+        PrestamoEscolar app = new PrestamoEscolar();
 
-		Persona.personas.add(new Profesor("David", "Arroyo", 111222333, 1));
-		Persona.personas.add(new Profesor("Ana", "Martinez", 444555666, 2));
-		
-		MaterialEscolar m1 = new MaterialEscolar(Tipo_Material.Ordenadores_Portatiles);
-		MaterialEscolar m2 = new MaterialEscolar(Tipo_Material.Tablets);
-		MaterialEscolar m3 = new MaterialEscolar(Tipo_Material.Calculadoras);
-		MaterialEscolar m4 = new MaterialEscolar(Tipo_Material.Libros);
-		MaterialEscolar m5 = new MaterialEscolar(Tipo_Material.Material_Audiovisual);
-		
-		
 
-		MaterialEscolar.materiales.add(m1);
-		MaterialEscolar.materiales.add(m2);
-		MaterialEscolar.materiales.add(m3);
-		MaterialEscolar.materiales.add(m4);
-		MaterialEscolar.materiales.add(m5);
-		
-		Calendar cal = Calendar.getInstance();
-		Date fechaInicio = new Date(cal.getTimeInMillis());
-		
-		Prestamos p1 = new CortaDuracion(Persona.personas.get(0), m1, fechaInicio);
-		m1.setEstado(Estado_Material.Prestado);
-		Prestamos.prestamos.add(p1);
+        app.inicializarDatos();
+        app.inicializarFecha();
 
-		// Fecha del sistema
-		cal = Calendar.getInstance();
-		int diaActual = cal.get(Calendar.DAY_OF_MONTH);
-		int mesActual = cal.get(Calendar.MONTH) + 1; // Calendar.MONTH va de 0 a 11
-		int anioActual = cal.get(Calendar.YEAR);
+        boolean salir = false;
 
-		boolean salir = false;
-		int opcion;
-		
-		
+        while (!salir) {
+        	
 
-		while (!salir) {
 
-			// Menú principal
-			System.out.println("\n--- SISTEMA DE PRÉSTAMOS ESCOLARES ---");
-			System.out.println("Fecha actual: " + diaActual + "/" + mesActual + "/" + anioActual);
-			System.out.println("1. Dar de alta persona");
-			System.out.println("2. Registrar material");
-			System.out.println("3. Registrar préstamo");
-			System.out.println("8. Pasar día");
-			System.out.println("9. Consultar historial de préstamos");
-			System.out.println("10. Consultar historial de material");
-			System.out.println("0. Salir");
-			System.out.print("Opción: ");
-			opcion = sc.nextInt();
-			sc.nextLine();
+           
 
-			switch (opcion) {
+            System.out.println("\n📚 --- SISTEMA DE PRESTAMOS ESCOLARES --- 📚");
+            System.out.println("📅 Fecha actual: " + app.getFechaActual());
+            System.out.println("────────────────────────────");
+            System.out.println("1️.  Dar de alta persona");
+            System.out.println("2️.  Registrar material");
+            System.out.println("3️.  Registrar prestamo");
+            System.out.println("8️.  Pasar dia");
+            System.out.println("9️.  Ver prestamos");
+            System.out.println("10. Ver materiales");
+            System.out.println("0.  Salir");
+            System.out.println("────────────────────────────");
 
-			// ===== 1: Dar de alta persona =====
-			case 1:
-				System.out.println("\nAlta de persona:");
-				System.out.println("1. Alumno");
-				System.out.println("2. Profesor");
-				int tipoPersona = sc.nextInt();
-				sc.nextLine();
+            System.out.print("👉 Opcion: ");
+            int opcion = sc.nextInt();
+            sc.nextLine();
 
-				System.out.print("Nombre: ");
-				String nombre = sc.nextLine();
-				System.out.print("Apellido: ");
-				String apellido = sc.nextLine();
 
-				int telefono;
-				do {
-					System.out.print("Teléfono (9 dígitos): ");
-					telefono = sc.nextInt();
-					sc.nextLine();
-				} while (telefono < 100000000 || telefono > 999999999);
+            switch (opcion) {
 
-				switch (tipoPersona) {
-				case 1:
-					System.out.print("Curso: ");
-					String curso = sc.nextLine();
-					Persona.personas.add(new Alumno(nombre, apellido, telefono, curso));
-					System.out.println("✅ Alumno añadido");
-					break;
-				case 2:
-					System.out.print("Código profesor: ");
-					int codigo = sc.nextInt();
-					sc.nextLine();
-					Persona.personas.add(new Profesor(nombre, apellido, telefono, codigo));
-					System.out.println("✅ Profesor añadido");
-					break;
-				default:
-					System.out.println("❌ Opción no válida");
-				}
-				break;
+                case 1:
+                	 app.separar();
+                    System.out.println("\n👤 Has seleccionado dar de alta persona");
+                    app.altaPersona(sc);
+                    break;
 
-			// ===== 2: Registrar material =====
-			case 2:
-				System.out.println("\n--- REGISTRAR MATERIAL ---");
+                case 2:
+                	 app.separar();
+                    System.out.println("\n📦 Has seleccionado registrar material");
+                    app.registrarMaterial(sc);
+                   
+                    break;
 
-				System.out.println("1. Ordenadores_Portatiles");
-				System.out.println("2. Tablets");
-				System.out.println("3. Calculadoras");
-				System.out.println("4. Libros");
-				System.out.println("5. Material_Audiovisual");
-				System.out.println("0. Cancelar");
+                case 3:
+                	 app.separar();
+                    System.out.println("\n📚 Has seleccionado registrar prestamo");
+                    app.registrarPrestamo(sc);
+                   
+                    break;
 
-				int opcionMat = sc.nextInt();
-				sc.nextLine();
+                case 8:
+                	 app.separar();
+                    System.out.println("\n⏩ Avanzando un dia...");
+                    app.pasarDia();
+               
+                    break;
 
-				Tipo_Material tipoSeleccionado = null;
+                case 9:
+                	 app.separar();
+                    app.verPrestamos();
+                   
+                    break;
 
-				switch (opcionMat) {
-				case 1:
-					tipoSeleccionado = Tipo_Material.Ordenadores_Portatiles;
-					break;
-				case 2:
-					tipoSeleccionado = Tipo_Material.Tablets;
-					break;
-				case 3:
-					tipoSeleccionado = Tipo_Material.Calculadoras;
-					break;
-				case 4:
-					tipoSeleccionado = Tipo_Material.Libros;
-					break;
-				case 5:
-					tipoSeleccionado = Tipo_Material.Material_Audiovisual;
-					break;
-				case 0:
-					System.out.println("Cancelado");
-					break;
-				default:
-					System.out.println("❌ Opción no válida");
-				}
+                case 10:
+                	 app.separar();
+                    app.verMateriales();
+                  
+                    break;
 
-				if (tipoSeleccionado != null) {
-					MaterialEscolar.materiales.add(new MaterialEscolar(tipoSeleccionado));
-					System.out.println("✅ Material añadido: " + tipoSeleccionado);
-				}
-				break;
+                case 0:
+                    salir = true;
+                    System.out.println("Saliendo...");
+                    break;
 
-			// ===== 3: Registrar préstamo =====
-			case 3:
-				System.out.println("\n--- REGISTRAR PRÉSTAMO ---");
+                default:
+                    System.out.println("Opcion no valida");
+            }
+        }
 
-				// Selección de persona
-				System.out.println("¿Para quién es el préstamo?");
-				System.out.println("1. Alumno");
-				System.out.println("2. Profesor");
-				int tipoPer = sc.nextInt();
-				sc.nextLine();
-
-				System.out.print("Nombre: ");
-				String nombreBus = sc.nextLine();
-				System.out.print("Apellido: ");
-				String apellidoBus = sc.nextLine();
-
-				String curso = null;
-				Integer codigoProfesor = null;
-
-				Persona personaEncontrada = null;
-				for (Persona p : Persona.personas) {
-					if (p.getNombre().equalsIgnoreCase(nombreBus) && p.getApellido().equalsIgnoreCase(apellidoBus)) {
-						if ((tipoPer == 1 && p instanceof Alumno) || (tipoPer == 2 && p instanceof Profesor)) {
-							personaEncontrada = p;
-
-							// Pedir curso o código si no está definido
-							if (p instanceof Alumno) {
-								System.out.print("Curso del alumno: ");
-								curso = sc.nextLine();
-								((Alumno) p).setCurso(curso);
-							} else if (p instanceof Profesor) {
-								System.out.print("Código del profesor: ");
-								codigoProfesor = sc.nextInt();
-								sc.nextLine();
-								((Profesor) p).setCodigoProfesor(codigoProfesor);
-							}
-
-							break;
-						}
-					}
-				}
-
-				if (personaEncontrada == null) {
-					System.out.println("❌ Persona no encontrada");
-					break;
-				}
-
-				// Mostrar materiales disponibles y elegir
-				ArrayList<MaterialEscolar> disponibles = new ArrayList<>();
-				for (MaterialEscolar m : MaterialEscolar.materiales) {
-					if (m.isDisponible()) {
-						disponibles.add(m);
-					}
-				}
-
-				if (disponibles.isEmpty()) {
-					System.out.println("❌ No hay materiales disponibles");
-					break;
-				}
-
-				System.out.println("\nMateriales disponibles:");
-				for (int i = 0; i < disponibles.size(); i++) {
-					System.out.println((i + 1) + ". " + disponibles.get(i).getTipo());
-				}
-				System.out.print("Elige un material (opción número): ");
-				opcionMat = sc.nextInt();
-				sc.nextLine();
-
-				if (opcionMat < 1 || opcionMat > disponibles.size()) {
-					System.out.println("❌ Opción inválida");
-					break;
-				}
-
-				MaterialEscolar materialSeleccionado = disponibles.get(opcionMat - 1);
-
-				// 3️ Elegir tipo de préstamo
-				System.out.println("\nTipo de préstamo:");
-				System.out.println("1. Larga duración (30 días)");
-				System.out.println("2. Corta duración (7 días)");
-				System.out.println("3. Especial (15 días)");
-				int opcionPrest = sc.nextInt();
-				sc.nextLine();
-
-				// Fecha inicio
-				cal = Calendar.getInstance();
-				fechaInicio = new Date(cal.getTimeInMillis());
-
-				Prestamos prestamo = null;
-				switch (opcionPrest) {
-				case 1:
-					prestamo = new LargaDuracion(personaEncontrada, materialSeleccionado, fechaInicio);
-					break;
-				case 2:
-					prestamo = new CortaDuracion(personaEncontrada, materialSeleccionado, fechaInicio);
-					break;
-				case 3:
-					prestamo = new Especial(personaEncontrada, materialSeleccionado, fechaInicio);
-					break;
-				default:
-					System.out.println("❌ Opción no válida");
-					break;
-				}
-
-				if (prestamo != null) {
-					Prestamos.prestamos.add(prestamo);
-					materialSeleccionado.setEstado(Estado_Material.Prestado);
-					System.out.println("✅ Préstamo registrado:");
-					System.out.println(prestamo);
-				}
-
-				break;
-			// ===== 8: Pasar día =====
-			case 8:
-				// ===== PASAR DÍA =====
-				// Avanzar un día
-				diaActual++;
-				if (diaActual > 30) { // suponiendo meses de 30 días
-					diaActual = 1;
-					mesActual++;
-				}
-				if (mesActual > 12) {
-					mesActual = 1;
-					anioActual++;
-				}
-
-				// Crear fecha actual del "sistema" para comparación
-				Calendar calActual = Calendar.getInstance();
-				calActual.set(anioActual, mesActual - 1, diaActual); // mes-1 porque Calendar usa 0-11
-				Date fechaActual = new Date(calActual.getTimeInMillis());
-
-				// Revisar préstamos
-				for (Prestamos p : Prestamos.prestamos) {
-					if (p.isActivo() && fechaActual.after(p.getFechaFinal())) {
-						p.setActivo(false); // préstamo finalizado
-						MaterialEscolar mat = p.getMaterialEscolar();
-						mat.setEstado(Estado_Material.En_mantenimiento);
-						int diasAleatorios = (int)(Math.random() * 10) + 1; // 1 a 10
-						mat.setDiasMantenimiento(diasAleatorios);
-						System.out.println(" Préstamo finalizado: " + p);
-					}
-				}
-
-				// Actualizar materiales en mantenimiento
-				for (MaterialEscolar m : MaterialEscolar.materiales) {
-					if (m.getEstado() == Estado_Material.En_mantenimiento) {
-						int dias = m.getDiasMantenimiento() - 1;
-						m.setDiasMantenimiento(dias);
-						if (dias <= 0) {
-							m.setEstado(Estado_Material.Disponible);
-							System.out.println("✅ Material disponible: " + m.getTipo());
-						}
-					}
-				}
-
-				System.out.println(" Día avanzado: " + diaActual + "/" + mesActual + "/" + anioActual);
-				break;
-
-			// ===== 9: Consultar historial =====
-			case 9:
-				System.out.println("\n--- PRÉSTAMOS ACTIVOS ---");
-				for (Prestamos p : Prestamos.prestamos) {
-					if (p.isActivo())
-						System.out.println(p);
-				}
-				System.out.println("\n--- PRÉSTAMOS ANTERIORES ---");
-				for (Prestamos p : Prestamos.prestamos) {
-					if (!p.isActivo())
-						System.out.println(p);
-				}
-				break;
-
-			case 10:
-				System.out.println("\n--- HISTORIAL DE MATERIALES ---");
-
-				for (MaterialEscolar m : MaterialEscolar.materiales) {
-
-					String info = "Material: " + m.getTipo() + " | Estado: " + m.getEstado();
-
-					if (m.getEstado() == Estado_Material.Prestado) {
-
-						for (Prestamos p : Prestamos.prestamos) {
-							if (p.getMaterialEscolar() == m && p.isActivo()) {
-
-								info += " | Prestado a: " + p.getPersona().getNombre() + " "
-										+ p.getPersona().getApellido();
-
-								if (p.getPersona() instanceof Alumno) {
-									info += " | Curso: " + ((Alumno) p.getPersona()).getCurso();
-								} else {
-									info += " | Código: " + ((Profesor) p.getPersona()).getCodigoProfesor();
-								}
-								break;
-							}
-						}
-
-					} else if (m.getEstado() == Estado_Material.En_mantenimiento) {
-						info += " | Días mantenimiento: " + m.getDiasMantenimiento();
-					}
-
-					System.out.println(info);
-				}
-				break;
-
-			// ===== 0: Salir =====
-			case 0:
-				salir = true;
-				break;
-
-			default:
-				System.out.println("❌ Opción no válida");
-			}
-		}
-
-		sc.close();
-	}
+        sc.close();
+    }
 }
