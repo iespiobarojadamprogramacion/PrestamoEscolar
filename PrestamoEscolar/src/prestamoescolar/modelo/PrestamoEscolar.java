@@ -1,16 +1,16 @@
 package prestamoescolar.modelo;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Scanner;
 
 public class PrestamoEscolar {
 
     private int diaActual;
     private int mesActual;
     private int anioActual;
-    private String curso;
-    private int codigoProfesor;
+
+    // ================= INICIALIZAR =================
 
     public void inicializarDatos() {
 
@@ -27,7 +27,6 @@ public class PrestamoEscolar {
         Calendar cal = Calendar.getInstance();
         Date fecha = new Date(cal.getTimeInMillis());
 
-        // Prestamos iniciales activos
         TiposDePrestamo p1 = new CortaDuracion(Persona.personas.get(0), MaterialEscolar.materiales.get(0), fecha);
         MaterialEscolar.materiales.get(0).setEstado(Estado_Material.Prestado);
         TiposDePrestamo.prestamos.add(p1);
@@ -48,56 +47,24 @@ public class PrestamoEscolar {
         return diaActual + "-" + mesActual + "-" + anioActual;
     }
 
-    public void separar() {
-        for (int i = 0; i < 50; i++) System.out.println();
-    }
+    // ================= ALTA PERSONA =================
 
-    public void altaPersona(Scanner sc) {
-
-        System.out.println("\n--- ALTA PERSONA ---");
-        System.out.println("1. Alumno");
-        System.out.println("2. Profesor");
-
-        int tipo = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Nombre: ");
-        String nombre = sc.nextLine();
-
-        System.out.print("Apellido: ");
-        String apellido = sc.nextLine();
-
-        int telefono;
-        do {
-            System.out.print("Telefono (9 digitos): ");
-            telefono = sc.nextInt();
-            sc.nextLine();
-        } while (telefono < 100000000 || telefono > 999999999);
+    public String altaPersona(int tipo, String nombre, String apellido, int telefono, String curso, int codigo) {
 
         if (tipo == 1) {
-            System.out.print("Curso: ");
-            String curso = sc.nextLine();
             Persona.personas.add(new Alumno(nombre, apellido, telefono, curso));
+            return "Alumno registrado correctamente";
         } else if (tipo == 2) {
-            System.out.print("Codigo profesor: ");
-            int codigo = sc.nextInt();
-            sc.nextLine();
             Persona.personas.add(new Profesor(nombre, apellido, telefono, codigo));
+            return "Profesor registrado correctamente";
         }
+
+        return "Error al registrar persona";
     }
 
-    public void registrarMaterial(Scanner sc) {
+    // ================= REGISTRAR MATERIAL =================
 
-        System.out.println("\n--- REGISTRAR MATERIAL ---");
-
-        System.out.println("1. Portatil");
-        System.out.println("2. Tablet");
-        System.out.println("3. Calculadora");
-        System.out.println("4. Libro Academico");
-        System.out.println("5. Material Audiovisual");
-
-        int opcion = sc.nextInt();
-        sc.nextLine();
+    public String registrarMaterial(int opcion) {
 
         Tipo_Material tipo = null;
 
@@ -107,105 +74,88 @@ public class PrestamoEscolar {
             case 3: tipo = Tipo_Material.Calculadoras; break;
             case 4: tipo = Tipo_Material.Libros; break;
             case 5: tipo = Tipo_Material.Material_Audiovisual; break;
-            
         }
 
         if (tipo != null) {
             MaterialEscolar.materiales.add(new MaterialEscolar(tipo));
-            System.out.println("Material registrado: " + tipo);
+            return "Material registrado: " + tipo;
         }
+
+        return "Opcion invalida";
     }
 
-    public void registrarPrestamo(Scanner sc) {
+    // ================= MOSTRAR MATERIALES DISPONIBLES =================
 
-        System.out.println("\n--- REGISTRAR PRESTAMO ---");
+    public String mostrarMaterialesDisponibles() {
 
-        System.out.println("1. Alumno");
-        System.out.println("2. Profesor");
-        int tipo = sc.nextInt();
-        sc.nextLine();
+        String resultado = "\n--- MATERIALES DISPONIBLES ---\n";
 
-        System.out.print("Nombre: ");
-        String nombre = sc.nextLine();
+        int contador = 1;
 
-        System.out.print("Apellido: ");
-        String apellido = sc.nextLine();
-        
-        int telefono;
-        do {
-            System.out.print("Telefono (9 digitos): ");
-            telefono = sc.nextInt();
-            sc.nextLine();
-        } while (telefono < 100000000 || telefono > 999999999);
-        
-        if(tipo==1) {
-        	
-        	System.out.print("Curso del alumno: ");
-            curso = sc.nextLine();
-        	
-        }else if(tipo==2) {
-        	
-        	System.out.print("Codigo del profesor: ");
-            codigoProfesor = sc.nextInt();
-            sc.nextLine();
-        	
+        for (MaterialEscolar m : MaterialEscolar.materiales) {
+            if (m.isDisponible()) {
+                resultado += contador + ". " + m + "\n";
+                contador++;
+            }
         }
+
+        if (contador == 1) {
+            return "No hay materiales disponibles";
+        }
+
+        return resultado;
+    }
+
+    // ================= REGISTRAR PRESTAMO =================
+
+    public String registrarPrestamo(int tipo, String nombre, String apellido, int telefono,
+                                   String curso, int codigo, int indexMaterial, int tipoPrestamo) {
 
         Persona personaEncontrada = null;
 
-        for (int i = 0; i < Persona.personas.size(); i++) {
-            Persona p = Persona.personas.get(i);
+        for (Persona p : Persona.personas) {
+
             if (p.getNombre().equalsIgnoreCase(nombre) &&
                 p.getApellido().equalsIgnoreCase(apellido) &&
                 p.getTelefono() == telefono) {
 
-                if (tipo == 1 && p instanceof Alumno && ((Alumno)p).getCurso().equalsIgnoreCase(curso)) {
+                if (tipo == 1 && p instanceof Alumno &&
+                    ((Alumno)p).getCurso().equalsIgnoreCase(curso)) {
+
                     personaEncontrada = p;
-                    break;
-                } else if (tipo == 2 && p instanceof Profesor && ((Profesor)p).getCodigoProfesor() == codigoProfesor) {
+                }
+
+                if (tipo == 2 && p instanceof Profesor &&
+                    ((Profesor)p).getCodigoProfesor() == codigo) {
+
                     personaEncontrada = p;
-                    break;
                 }
             }
         }
 
         if (personaEncontrada == null) {
-            System.out.println("Persona no encontrada");
-            return;
+            return "Persona no encontrada";
         }
 
         ArrayList<MaterialEscolar> disponibles = new ArrayList<>();
 
-        for (int i = 0; i < MaterialEscolar.materiales.size(); i++) {
-            MaterialEscolar m = MaterialEscolar.materiales.get(i);
+        for (MaterialEscolar m : MaterialEscolar.materiales) {
             if (m.isDisponible()) {
                 disponibles.add(m);
             }
         }
 
         if (disponibles.isEmpty()) {
-            System.out.println("No hay materiales disponibles");
-            return;
+            return "No hay materiales disponibles";
         }
 
-        System.out.println("\nMateriales disponibles:");
-        for (int i = 0; i < disponibles.size(); i++) {
-            System.out.println((i + 1) + ". " + disponibles.get(i));
+        if (indexMaterial <= 0 || indexMaterial > disponibles.size()) {
+            return "Material invalido";
         }
 
-        int opcion = sc.nextInt();
-        sc.nextLine();
+        MaterialEscolar material = disponibles.get(indexMaterial - 1);
 
-        MaterialEscolar material = disponibles.get(opcion - 1);
-
-        System.out.println("1. Larga (30 días)");
-        System.out.println("2. Corta (7 días)");
-        System.out.println("3. Especial (15 días)");
-
-        int tipoPrestamo = sc.nextInt();
-        sc.nextLine();
-
-        Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
+        Date fecha = new Date(System.currentTimeMillis());
 
         TiposDePrestamo p = null;
 
@@ -215,14 +165,18 @@ public class PrestamoEscolar {
             case 3: p = new Especial(personaEncontrada, material, fecha); break;
         }
 
-        if (p != null) {
-            TiposDePrestamo.prestamos.add(p);
-            material.setEstado(Estado_Material.Prestado);
-            System.out.println("Prestamo registrado para: " + personaEncontrada.getNombre() + " " + personaEncontrada.getApellido());
-        }
+        if (p == null) return "Tipo de prestamo invalido";
+
+        TiposDePrestamo.prestamos.add(p);
+        material.setEstado(Estado_Material.Prestado);
+
+        return "Prestamo registrado correctamente a " +
+                personaEncontrada.getNombre() + " " + personaEncontrada.getApellido();
     }
 
-    public void pasarDia() {
+    // ================= PASAR DIA =================
+
+    public String pasarDia() {
 
         diaActual++;
         if (diaActual > 30) { diaActual = 1; mesActual++; }
@@ -232,9 +186,9 @@ public class PrestamoEscolar {
         cal.set(anioActual, mesActual - 1, diaActual);
         Date fecha = new Date(cal.getTimeInMillis());
 
-        for (int i = 0; i < TiposDePrestamo.prestamos.size(); i++) {
+        String resultado = "Fecha actual: " + getFechaActual() + "\n";
 
-            TiposDePrestamo p = TiposDePrestamo.prestamos.get(i);
+        for (TiposDePrestamo p : TiposDePrestamo.prestamos) {
 
             if (p.isActivo() && fecha.after(p.getFechaFinal())) {
 
@@ -242,77 +196,83 @@ public class PrestamoEscolar {
 
                 MaterialEscolar mat = p.getMaterialEscolar();
                 int dias = (int)(Math.random() * 10) + 1;
+
                 mat.setEstado(Estado_Material.En_mantenimiento);
                 mat.setDiasMantenimiento(dias);
 
-                System.out.println("El prestamo de " + p.getPersona() +
-                        " ha sido devuelto. El material " + mat + " pasa a mantenimiento por " + dias + " dias");
+                resultado += "Prestamo finalizado de " + p.getPersona() +
+                        ". Material en mantenimiento (" + dias + " dias)\n";
             }
         }
 
-        for (int i = 0; i < MaterialEscolar.materiales.size(); i++) {
-
-            MaterialEscolar m = MaterialEscolar.materiales.get(i);
+        for (MaterialEscolar m : MaterialEscolar.materiales) {
 
             if (m.getEstado() == Estado_Material.En_mantenimiento) {
+
                 int dias = m.getDiasMantenimiento() - 1;
                 m.setDiasMantenimiento(dias);
 
                 if (dias <= 0) {
                     m.setEstado(Estado_Material.Disponible);
-                    System.out.println("Material " + m + " disponible nuevamente");
+                    resultado += "Material disponible nuevamente: " + m + "\n";
                 }
             }
         }
+
+        return resultado;
     }
 
-    public void verPrestamos() {
+    // ================= VER PRESTAMOS =================
 
-        System.out.println("\n--- PRESTAMOS ACTIVOS ---");
-        for (int i = 0; i < TiposDePrestamo.prestamos.size(); i++) {
+    public String verPrestamos() {
 
-            TiposDePrestamo p = TiposDePrestamo.prestamos.get(i);
+        String res = "\n--- PRESTAMOS ACTIVOS ---\n";
 
+        for (TiposDePrestamo p : TiposDePrestamo.prestamos) {
             if (p.isActivo()) {
-                System.out.println(p + " | Dias restantes: " + p.diasRestantes(new Date(Calendar.getInstance().getTimeInMillis())));
+                res += p + "\n";
             }
         }
 
-        System.out.println("\n--- PRESTAMOS FINALIZADOS ---");
-        for (int i = 0; i < TiposDePrestamo.prestamos.size(); i++) {
+        res += "\n--- PRESTAMOS FINALIZADOS ---\n";
 
-            TiposDePrestamo p = TiposDePrestamo.prestamos.get(i);
-
+        for (TiposDePrestamo p : TiposDePrestamo.prestamos) {
             if (!p.isActivo()) {
-                System.out.println(p + " | Duracion total: " + p.getDuracionMaxima() + " dias");
+                res += p + "\n";
             }
         }
+
+        return res;
     }
 
-    public void verMateriales() {
+    // ================= VER MATERIALES =================
 
-        System.out.println("\n--- ESTADO DE MATERIALES ---");
+    public String verMateriales() {
 
-        for (int i = 0; i < MaterialEscolar.materiales.size(); i++) {
+        String res = "\n--- ESTADO DE MATERIALES ---\n";
 
-            MaterialEscolar m = MaterialEscolar.materiales.get(i);
+        for (MaterialEscolar m : MaterialEscolar.materiales) {
+
             String info = m.toString();
 
             if (m.getEstado() == Estado_Material.Prestado) {
-                for (int j = 0; j < TiposDePrestamo.prestamos.size(); j++) {
 
-                    TiposDePrestamo p = TiposDePrestamo.prestamos.get(j);
+                for (TiposDePrestamo p : TiposDePrestamo.prestamos) {
 
                     if (p.getMaterialEscolar() == m && p.isActivo()) {
-                        info += " | Prestado a: " + p.getPersona() + " | Dias restantes: " + p.diasRestantes(new Date(Calendar.getInstance().getTimeInMillis()));
+                        info += " | Prestado a: " + p.getPersona();
                         break;
                     }
                 }
+
             } else if (m.getEstado() == Estado_Material.En_mantenimiento) {
-                info += " | Dias restantes de mantenimiento: " + m.getDiasMantenimiento();
+
+                info += " | Dias mantenimiento: " + m.getDiasMantenimiento();
             }
 
-            System.out.println(info);
+            res += info + "\n";
         }
+
+        return res;
     }
 }
