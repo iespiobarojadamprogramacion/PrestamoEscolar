@@ -12,10 +12,46 @@ public class Main {
 
         app.inicializarDatos();
         app.inicializarFecha();
+        
+        //deja de usarse debe ejecutarse en ventanaprincipal
 
         boolean salir = false;
 
         while (!salir) {
+        	
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	System.out.println("DEJA DE USARSE DEBE EJECUTARSE DESDE VENTANA PRINCIPAL");
+
+        	
 
             System.out.println("\n📚 --- SISTEMA DE PRESTAMOS ESCOLARES --- 📚");
             System.out.println("📅 Fecha actual: " + app.getFechaActual());
