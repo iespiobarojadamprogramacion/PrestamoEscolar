@@ -1,4 +1,4 @@
-package prestamoescolar.principal;
+package prestamoescolar.vistas;
 
 import java.awt.EventQueue;
 
@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import prestamoescolar.controladores.ControladorMaterial;
+import prestamoescolar.controladores.ControladorPersona;
+import prestamoescolar.controladores.ControladorPrestamo;
 import prestamoescolar.modelo.MaterialEscolar;
-import prestamoescolar.modelo.PrestamoEscolar;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -24,12 +26,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
-	
-	private static final long serialVersionUID = 1L; // no se que es esto eclipse lo recomienda poner 
 
-	private JPanel panel;
+    private JPanel panel;
 
-    private PrestamoEscolar app;
+    private ControladorPersona controladorPersona;
+
+    private ControladorMaterial controladorMaterial;
+
+    private ControladorPrestamo controladorPrestamo;
 
     private JTextField nombre;
     private JTextField apellido;
@@ -76,10 +80,14 @@ public class VentanaPrincipal extends JFrame {
 
     public VentanaPrincipal() {
 
-        app = new PrestamoEscolar();
+        controladorPersona =
+                new ControladorPersona();
 
-        app.inicializarDatos();
-        app.inicializarFecha();
+        controladorMaterial =
+                new ControladorMaterial();
+
+        controladorPrestamo =
+                new ControladorPrestamo();
 
         setTitle("Prestamo Escolar");
 
@@ -95,8 +103,6 @@ public class VentanaPrincipal extends JFrame {
         setContentPane(panel);
 
         panel.setLayout(null);
-
-        // ================= MENU =================
 
         JMenuBar barra = new JMenuBar();
 
@@ -132,8 +138,6 @@ public class VentanaPrincipal extends JFrame {
         consultas.add(verPrestamos);
         consultas.add(verMateriales);
 
-        // ================= TITULO =================
-
         JLabel titulo =
                 new JLabel("BIENVENIDO A PRESTAMO ESCOLAR");
 
@@ -146,13 +150,11 @@ public class VentanaPrincipal extends JFrame {
 
         JLabel fecha =
                 new JLabel("Fecha actual: "
-                        + app.getFechaActual());
+                        + controladorPrestamo.getFechaActual());
 
         fecha.setBounds(500, 70, 200, 20);
 
         panel.add(fecha);
-
-        // ================= MODO =================
 
         modo =
                 new JLabel("REGISTRAR PERSONA");
@@ -163,8 +165,6 @@ public class VentanaPrincipal extends JFrame {
         modo.setBounds(40, 120, 300, 30);
 
         panel.add(modo);
-
-        // ================= NOMBRE =================
 
         textoNombre =
                 new JLabel("Nombre");
@@ -179,8 +179,6 @@ public class VentanaPrincipal extends JFrame {
 
         panel.add(nombre);
 
-        // ================= APELLIDO =================
-
         textoApellido =
                 new JLabel("Apellido");
 
@@ -193,8 +191,6 @@ public class VentanaPrincipal extends JFrame {
         apellido.setBounds(150, 210, 220, 25);
 
         panel.add(apellido);
-
-        // ================= TELEFONO =================
 
         textoTelefono =
                 new JLabel("Telefono");
@@ -209,8 +205,6 @@ public class VentanaPrincipal extends JFrame {
 
         panel.add(telefono);
 
-        // ================= EXTRA =================
-
         textoExtra =
                 new JLabel("Curso");
 
@@ -223,8 +217,6 @@ public class VentanaPrincipal extends JFrame {
         extra.setBounds(150, 290, 220, 25);
 
         panel.add(extra);
-
-        // ================= TIPO PERSONA =================
 
         tipoPersona =
                 new JComboBox<>();
@@ -252,8 +244,6 @@ public class VentanaPrincipal extends JFrame {
             }
         });
 
-        // ================= MATERIAL =================
-
         tipoMaterial =
                 new JComboBox<>();
 
@@ -267,8 +257,6 @@ public class VentanaPrincipal extends JFrame {
 
         panel.add(tipoMaterial);
 
-        // ================= PRESTAMO =================
-
         tipoPrestamo =
                 new JComboBox<>();
 
@@ -280,16 +268,12 @@ public class VentanaPrincipal extends JFrame {
 
         panel.add(tipoPrestamo);
 
-        // ================= MATERIALES DISPONIBLES =================
-
         materialesDisponibles =
                 new JComboBox<>();
 
         materialesDisponibles.setBounds(150, 410, 220, 25);
 
         panel.add(materialesDisponibles);
-
-        // ================= BOTON =================
 
         JButton boton =
                 new JButton("REGISTRAR");
@@ -298,16 +282,12 @@ public class VentanaPrincipal extends JFrame {
 
         panel.add(boton);
 
-        // ================= PASAR DIA =================
-
         JButton pasarDia =
                 new JButton("PASAR DIA");
 
         pasarDia.setBounds(900, 120, 200, 50);
 
         panel.add(pasarDia);
-
-        // ================= AREA TEXTO =================
 
         JScrollPane scroll =
                 new JScrollPane();
@@ -319,8 +299,6 @@ public class VentanaPrincipal extends JFrame {
         areaTexto = new JTextArea();
 
         scroll.setViewportView(areaTexto);
-
-        // ================= MENU PERSONA =================
 
         persona.addActionListener(
                 new ActionListener() {
@@ -335,8 +313,6 @@ public class VentanaPrincipal extends JFrame {
             }
         });
 
-        // ================= MENU MATERIAL =================
-
         material.addActionListener(
                 new ActionListener() {
 
@@ -349,8 +325,6 @@ public class VentanaPrincipal extends JFrame {
                         "REGISTRAR MATERIAL");
             }
         });
-
-        // ================= MENU PRESTAMO =================
 
         prestamo.addActionListener(
                 new ActionListener() {
@@ -365,8 +339,6 @@ public class VentanaPrincipal extends JFrame {
             }
         });
 
-        // ================= BOTON REGISTRAR =================
-
         boton.addActionListener(
                 new ActionListener() {
 
@@ -377,45 +349,35 @@ public class VentanaPrincipal extends JFrame {
                     String opcion =
                             modo.getText();
 
-                    // ================= PERSONA =================
-
                     if (opcion.equals(
                             "REGISTRAR PERSONA")) {
 
                         int tipo =
                                 tipoPersona.getSelectedIndex()+1;
 
-                        String nom =
-                                nombre.getText();
-
-                        String ape =
-                                apellido.getText();
-
-                        int tel =
-                                Integer.parseInt(
-                                        telefono.getText());
-
                         String resultado = "";
 
                         if (tipo == 1) {
 
                             resultado =
-                                    app.altaPersona(
+                                    controladorPersona.registrarPersona(
                                             tipo,
-                                            nom,
-                                            ape,
-                                            tel,
+                                            nombre.getText(),
+                                            apellido.getText(),
+                                            Integer.parseInt(
+                                                    telefono.getText()),
                                             extra.getText(),
                                             0);
 
                         } else {
 
                             resultado =
-                                    app.altaPersona(
+                                    controladorPersona.registrarPersona(
                                             tipo,
-                                            nom,
-                                            ape,
-                                            tel,
+                                            nombre.getText(),
+                                            apellido.getText(),
+                                            Integer.parseInt(
+                                                    telefono.getText()),
                                             null,
                                             Integer.parseInt(
                                                     extra.getText()));
@@ -424,8 +386,6 @@ public class VentanaPrincipal extends JFrame {
                         areaTexto.setText(resultado);
                     }
 
-                    // ================= MATERIAL =================
-
                     else if (opcion.equals(
                             "REGISTRAR MATERIAL")) {
 
@@ -433,26 +393,14 @@ public class VentanaPrincipal extends JFrame {
                                 tipoMaterial.getSelectedIndex() + 1;
 
                         areaTexto.setText(
-                                app.registrarMaterial(tipo));
+                                controladorMaterial.registrarMaterial(tipo));
                     }
-
-                    // ================= PRESTAMO =================
 
                     else if (opcion.equals(
                             "REGISTRAR PRESTAMO")) {
 
                         int tipo =
                                 tipoPersona.getSelectedIndex()+1;
-
-                        String nom =
-                                nombre.getText();
-
-                        String ape =
-                                apellido.getText();
-
-                        int tel =
-                                Integer.parseInt(
-                                        telefono.getText());
 
                         String curso = null;
 
@@ -476,11 +424,12 @@ public class VentanaPrincipal extends JFrame {
                                 tipoPrestamo.getSelectedIndex() + 1;
 
                         String resultado =
-                                app.registrarPrestamo(
+                                controladorPrestamo.registrarPrestamo(
                                         tipo,
-                                        nom,
-                                        ape,
-                                        tel,
+                                        nombre.getText(),
+                                        apellido.getText(),
+                                        Integer.parseInt(
+                                                telefono.getText()),
                                         curso,
                                         codigo,
                                         material,
@@ -497,15 +446,13 @@ public class VentanaPrincipal extends JFrame {
             }
         });
 
-        // ================= CONSULTAS =================
-
         verPrestamos.addActionListener(
                 new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
 
                 areaTexto.setText(
-                        app.verPrestamos());
+                        controladorPrestamo.verPrestamos());
             }
         });
 
@@ -515,11 +462,9 @@ public class VentanaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 areaTexto.setText(
-                        app.verMateriales());
+                        controladorMaterial.verMateriales());
             }
         });
-
-        // ================= PASAR DIA =================
 
         pasarDia.addActionListener(
                 new ActionListener() {
@@ -527,11 +472,11 @@ public class VentanaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 areaTexto.setText(
-                        app.pasarDia());
+                        controladorPrestamo.pasarDia());
 
                 fecha.setText(
                         "Fecha actual: "
-                        + app.getFechaActual());
+                        + controladorPrestamo.getFechaActual());
 
                 actualizarMateriales();
             }
@@ -541,11 +486,7 @@ public class VentanaPrincipal extends JFrame {
                 "REGISTRAR PERSONA");
     }
 
-    // ================= FORMULARIO =================
-
     private void actualizarFormulario(String opcion) {
-
-        // ================= PERSONA =================
 
         if (opcion.equals("REGISTRAR PERSONA")) {
 
@@ -568,8 +509,6 @@ public class VentanaPrincipal extends JFrame {
             materialesDisponibles.setVisible(false);
         }
 
-        // ================= MATERIAL =================
-
         else if (opcion.equals("REGISTRAR MATERIAL")) {
 
             textoNombre.setVisible(false);
@@ -590,8 +529,6 @@ public class VentanaPrincipal extends JFrame {
 
             materialesDisponibles.setVisible(false);
         }
-
-        // ================= PRESTAMO =================
 
         else if (opcion.equals("REGISTRAR PRESTAMO")) {
 
@@ -616,8 +553,6 @@ public class VentanaPrincipal extends JFrame {
             actualizarMateriales();
         }
     }
-
-    // ================= ACTUALIZAR MATERIALES =================
 
     private void actualizarMateriales() {
 
